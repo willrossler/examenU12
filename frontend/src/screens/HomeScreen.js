@@ -25,12 +25,11 @@ const HomeScreen = () => {
         <Message>{error}</Message>
       ) : (
         <Row>
-          {workouts &&
-            workouts.map((workout) => (
-              <Col key={workout._id} sm={12} md={6} lg={4} xl={3}>
-                <Workout workout={workout} />
-              </Col>
-            ))}
+          {workouts.map((workout) => (
+            <Col key={workout._id} sm={12} md={6} lg={4} xl={3}>
+              <Workout workout={workout} />
+            </Col>
+          ))}
         </Row>
       )}
     </>
