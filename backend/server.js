@@ -1,23 +1,22 @@
 import express from "express";
 import dotenv from "dotenv";
-import products from "./data/products.js";
 import connectDB from "./config/db.js";
-
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import workoutRoutes from "./routes/workoutRoutes.js";
 dotenv.config();
+
 connectDB();
+
 const app = express();
+app.use(express.json());
 
 app.get("/", (req, res) => res.send("API is running"));
 
-app.get("/api/workouts", (req, res) => {
-  res.json(products);
-});
+app.use("/api/workouts", workoutRoutes);
 
-app.get("/api/workouts/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
+app.use(notFound);
 
-  res.json(product);
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
