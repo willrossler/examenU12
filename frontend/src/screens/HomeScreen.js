@@ -1,30 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import Workout from "../components/Workout";
-import axios from "axios";
+import { listWorkouts } from "../actions/workoutActions";
+import Loader from "../components/Loader.js";
+import Message from "../components/Message.js";
 
 const HomeScreen = () => {
-  const [workouts, setWorkouts] = useState([]);
+  const dispatch = useDispatch();
+
+  const workoutList = useSelector((state) => state.workoutList);
+  const { loading, error, workouts } = workoutList;
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      const { data } = await axios.get("/api/workouts");
-
-      setWorkouts(data);
-    };
-    fetchWorkouts();
-  }, []);
+    dispatch(listWorkouts);
+  }, [dispatch]);
 
   return (
     <>
       <h1>Tillgängliga Pass</h1>
-      <Row>
-        {workouts.map((workout) => (
-          <Col key={workout._id} sm={12} md={6} lg={4} xl={3}>
-            <Workout workout={workout} />
-          </Col>
-        ))}
-      </Row>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message>{error}</Message>
+      ) : (
+        <Row>
+          {workouts &&
+            workouts.map((workout) => (
+              <Col key={workout._id} sm={12} md={6} lg={4} xl={3}>
+                <Workout workout={workout} />
+              </Col>
+            ))}
+        </Row>
+      )}
     </>
   );
 };
