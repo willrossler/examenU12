@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useDispatch } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   Row,
@@ -10,10 +10,19 @@ import {
   Card,
 } from "react-bootstrap";
 import Message from "../components/Message";
+import { addToCart } from "../actions/cartActions";
 
 const CartScreen = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const workoutId = params.id;
+
+  useEffect(() => {
+    if (workoutId) {
+      dispatch(addToCart(workoutId));
+    }
+  });
 
   const checkoutHandler = () => {
     navigate("/shipping");
