@@ -13,50 +13,55 @@ const Header = () => {
     dispatch(logout());
   };
   return (
-    <header>
-      <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
-        <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>Fannie Redman</Navbar.Brand>
-          </LinkContainer>
-
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <LinkContainer to="/about">
-                <Nav.Link>About Us</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/contact">
-                <Nav.Link>Contact</Nav.Link>
-              </LinkContainer>
-
-              {/* TODO dropdown bugg   */}
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
-                    <NavDropdown.item>Profile</NavDropdown.item>
-                  </LinkContainer>
-                  <NavDropdown.item onClick={logoutHandler}>
-                    Log Out
-                  </NavDropdown.item>
-                  <LinkContainer to="/cart">
-                    <Nav.Link>
-                      <i className="fa-regular fa-clock-eight"></i> Mina Pass
-                    </Nav.Link>
-                  </LinkContainer>
-                </NavDropdown>
-              ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link>
-                    <i className="fas fa-user"></i> Sign In
-                  </Nav.Link>
+    <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
+      <Container>
+        <LinkContainer to="/">
+          <Navbar.Brand>Fannie Redman</Navbar.Brand>
+        </LinkContainer>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <LinkContainer to="/cart">
+              <Nav.Link>
+                <i className="fas fa-shopping-cart"></i>Mina Pass
+              </Nav.Link>
+            </LinkContainer>
+            {userInfo ? (
+              <NavDropdown title={userInfo.name} id="username">
+                <LinkContainer to="/profile">
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </header>
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <LinkContainer to="/login">
+                <Nav.Link>
+                  <i className="fas fa-user"></i>Sign In
+                </Nav.Link>
+              </LinkContainer>
+            )}
+
+            {userInfo && userInfo.isAdmin && (
+              <NavDropdown title="Admin" id="adminmenu">
+                <LinkContainer to="/admin/userlist">
+                  <NavDropdown.Item>Users</NavDropdown.Item>
+                </LinkContainer>
+
+                <LinkContainer to="/admin/workoutList">
+                  <NavDropdown.Item>Workouts</NavDropdown.Item>
+                </LinkContainer>
+
+                <LinkContainer to="/admin/orderlist">
+                  <NavDropdown.Item>Orders</NavDropdown.Item>
+                </LinkContainer>
+              </NavDropdown>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

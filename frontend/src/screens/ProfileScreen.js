@@ -20,19 +20,20 @@ const ProfileScreen = () => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
-  const userLogin = useSelector((state) => state.userDetails);
+  const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userUpdateProfile = useSelector((state) => state.userDetails);
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
   useEffect(() => {
-    if (userInfo) {
+    if (!userInfo) {
       navigate("/login");
     } else {
-      if (!user.name) {
+      if (!user) {
         dispatch(getUserDetails("profile"));
       } else {
+        console.log(userDetails);
         setName(user.name);
         setEmail(user.email);
       }
