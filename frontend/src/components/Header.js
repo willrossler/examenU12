@@ -1,8 +1,17 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
+import { logout } from "../actions/userActions";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   return (
     <header>
       <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
@@ -20,11 +29,29 @@ const Header = () => {
               <LinkContainer to="/contact">
                 <Nav.Link>Contact</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  <i className="fas fa-user"></i> Sign In
-                </Nav.Link>
-              </LinkContainer>
+
+              {/* TODO dropdown bugg   */}
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.item>Profile</NavDropdown.item>
+                  </LinkContainer>
+                  <NavDropdown.item onClick={logoutHandler}>
+                    Log Out
+                  </NavDropdown.item>
+                  <LinkContainer to="/cart">
+                    <Nav.Link>
+                      <i className="fa-regular fa-clock-eight"></i> Mina Pass
+                    </Nav.Link>
+                  </LinkContainer>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> Sign In
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
