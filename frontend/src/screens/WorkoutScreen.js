@@ -10,10 +10,12 @@ import {
   Button,
   ListGroupItem,
   Form,
+  Dropdown,
 } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listWorkoutDetails } from "../actions/workoutActions";
+import { addToCart } from "../actions/cartActions";
 
 const WorkoutScreen = () => {
   const [qty, setQty] = useState(0);
@@ -28,11 +30,10 @@ const WorkoutScreen = () => {
   useEffect(() => {
     dispatch(listWorkoutDetails(params.id));
   }, [params]);
-
   const addToCartHandler = () => {
-    navigate(`/cart/${params.id}?qty=${qty}`);
+    dispatch(addToCart(workout._id, qty));
+    navigate("/cart");
   };
-
   return (
     <>
       {loading ? (
@@ -58,8 +59,8 @@ const WorkoutScreen = () => {
                   <Col>Status:</Col>
                   <Col>
                     {workout.countInStock > 0
-                      ? "Lediga platser"
-                      : "fullbokad!..."}
+                      ? `Lediga platser${countInStock}` 
+                      : "Fullbokad!..."}
                   </Col>
                 </Row>
               </ListGroup.Item> */}
@@ -67,6 +68,7 @@ const WorkoutScreen = () => {
                 <ListGroup.Item>
                   <Row>
                     <Col>Tid</Col>
+
                     <Col>
                       <Form.Control
                         className="form-select"
@@ -74,9 +76,11 @@ const WorkoutScreen = () => {
                         value={qty}
                         onChange={(e) => setQty(e.target.value)}
                       >
-                        <option>06:00-07:00</option>
-                        <option>11:00-12:00</option>
-                        <option>17:00-18:00</option>
+                        {[...Array(workout.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
                       </Form.Control>
                     </Col>
                   </Row>
@@ -84,11 +88,10 @@ const WorkoutScreen = () => {
               )}
 
               <ListGroupItem>
-                <p>{workout.description}</p>
-              </ListGroupItem>
-              <ListGroupItem>
                 <Button
                   onClick={addToCartHandler}
+                  className="btn-block"
+                  type="button"
                   disabled={workout.countInStock === 0}
                 >
                   Boka nu

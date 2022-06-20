@@ -15,15 +15,15 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true },
         workout: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true,
+          required: false,
           ref: "Workout",
         },
       },
     ],
-
+    // WORKOUTT REQUIRED? Var skickas den inte med? todo
     paymentMethod: {
       type: String,
-      required: true,
+      required: false,
     },
     paymentResult: {
       id: { type: String },

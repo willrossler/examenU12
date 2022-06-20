@@ -24,11 +24,11 @@ const workoutSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
     brand: {
       type: String,
-      required: true,
+      required: false,
     },
     description: {
       type: String,
@@ -51,9 +51,8 @@ const workoutSchema = new mongoose.Schema(
       default: 0,
     },
     countInStock: {
-      type: Number,
+      type: Array,
       required: true,
-      default: 0,
     },
   },
   {

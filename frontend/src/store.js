@@ -4,6 +4,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   workoutListReducer,
   workoutDetailsReducer,
+  workoutDeleteReducer,
+  workoutCreateReducer,
+  workoutUpdateReducer,
 } from "./reducers/workoutReducers";
 import { cartReducer } from "./reducers/cartReducers";
 import {
@@ -15,9 +18,21 @@ import {
   userDeleteReducer,
 } from "./reducers/userReducers";
 
+import {
+  orderCreateReducer,
+  orderDetailsReducer,
+  orderListReducer,
+} from "./reducers/orderReducers";
+
 const reducer = combineReducers({
   workoutList: workoutListReducer,
   workoutDetails: workoutDetailsReducer,
+  workoutDelete: workoutDeleteReducer,
+  workoutCreate: workoutCreateReducer,
+  workoutUpdate: workoutUpdateReducer,
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
+  orderList: orderListReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
